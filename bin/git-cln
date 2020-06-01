@@ -3,18 +3,19 @@
 case "$*" in
   *jw-git-examples/*)
     GIT_EMAIL=jan.warchol@gmail.com
-    CLONE_OPTS="--config user.email=$GIT_EMAIL"
     ;;
   *jan-warchol/*)
     GIT_EMAIL=jan.warchol@gmail.com
-    CLONE_OPTS="--config user.email=$GIT_EMAIL"
+    ;;
+  git@gitlab.nethone.io:*)
+    GIT_EMAIL=jan.warchol@nhx.bz
     ;;
   git@gitlab.codility.net:*)
     GIT_EMAIL=jan.warchol@codility.com
-    CLONE_OPTS="--config user.email=$GIT_EMAIL"
     ;;
   *)
 esac
+CLONE_OPTS="--config user.email=$GIT_EMAIL"
 
 git clone $CLONE_OPTS "$@" &&
 
