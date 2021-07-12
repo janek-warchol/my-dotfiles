@@ -201,22 +201,33 @@ let mapleader = "\<Space>"
 
 nmap <Leader>a :call SyntaxAttr()<CR>
 
+
 " NERDTree
 
-" remember that <tab> == <C-I>
+" match FZF shortcuts for opening in new split or tab
+autocmd FileType nerdtree nmap <buffer> <C-X> i
+autocmd FileType nerdtree nmap <buffer> <C-V> s<CR>
+autocmd FileType nerdtree nmap <buffer> <C-T> t
+
+" switching between files and NERDtree. Remember that <tab> == <C-I>
 map <tab> :NERDTreeFocus<CR>
+autocmd FileType nerdtree nmap <buffer> <tab> <C-W>p
+" focusing on opened file in NERDtree
 map <leader>f :NERDTreeFind<CR>
 " don't switch to opened file when using Enter to open it
 let NERDTreeCustomOpenArgs = {'file': {'where':'p', 'keepopen':1, 'stay':1}}
+
 " close Vim if the only open window is NERDtree
 " https://github.com/preservim/nerdtree/wiki/F.A.Q.
 autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+" let <C-Q> close last window with the code
+autocmd FileType nerdtree nmap <buffer> <C-Q> <C-W>p:q<CR>
 
 
 " Fuzzy-find in all files (including hidden)
 command! -bang -nargs=? -complete=dir FilteredFiles call
   \ fzf#vim#files(<q-args>,
-  \     {'source': "smart-find"},
+  \     {'source': "smart-find -type f"},
   \     <bang>0)
 
 " Fuzzy-find in dotfiles
@@ -259,13 +270,16 @@ inoremap <C-S> <Esc>:w<CR>
 map <C-c> :BD<CR>
 " close window/split (buffer stays open)
 nnoremap <C-Q> :q<CR>
-inoremap <C-Q> <Esc>:w<CR>:q<CR>
+inoremap <C-Q> <Esc>:q<CR>
 " Alt-Q to save changes and quit
 nmap q :w<CR>:q<CR>
 imap q <ESC>:w<CR>:q<CR>
 
 
 " consistency ----------------------------------------------------------
+
+" unlearn word-deletion shortcut
+imap <C-W> <nop>
 
 " open new file in horizontal/vertical split. By default there is only mapping
 " for horizontal split (<C-W>n).
