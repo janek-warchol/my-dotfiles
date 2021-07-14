@@ -6,7 +6,8 @@ g() { git "$@"; }
 # make sure the autocompletion function (`_git`) is loaded
 type -t _git >/dev/null || . /usr/share/bash-completion/completions/git
 
-complete -o default -o nospace -F _git g
+# complete -o default -o nospace -F _git g
+__git_complete g __git_main
 
 # I want NO line wrapping on these two, so I pipe them to less with
 # line-wrapping disabled and exit less immediately without clearing screen.
